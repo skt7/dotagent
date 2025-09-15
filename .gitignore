@@ -2,8 +2,15 @@
 artifacts/*
 !artifacts/.gitkeep
 
+# Ignore bugs directory
+context/bugs/*
+!context/bugs/.gitkeep
+
 # Ignore dump directory
 dump/
 
 # Ignore .cursor directory
 .cursor/
+
+#Ignore dotagent context
+dotagent-context/

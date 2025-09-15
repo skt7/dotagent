@@ -23,12 +23,24 @@
       ]
     },
     {
+      "id": "think_later",
+      "title": "Log an idea (with hotness tracking)",
+      "description": "Capture ideas into context/idea.md. If same idea is logged again, increment hotness score instead of duplicating. Always confirm before writing.",
+      "prompt_file": "prompts/think_later.md",
+      "examples": [
+        "/think_later",
+        "Log idea: build mobile app",
+        "Add idea for GraphQL API (already mentioned before)"
+      ]
+    },
+    {
       "id": "next_to_do",
       "title": "Top next to-dos",
       "description": "Produce the top 3–5 to-dos to focus on for the next commit, based on tracker.json, idea.md, to_do.md, and goal.md.",
       "prompt_file": "prompts/next_to_do.md",
       "examples": [
         "/next_to_do",
+        "/what_next",
         "What should I work on next for this idea?",
         "Top next tasks for commit"
       ]
@@ -41,6 +53,83 @@
       "examples": [
         "/update_to_do Add unit tests for auth",
         "Add 'document README' to to-do"
+      ]
+    },
+    {
+      "id": "add_to_do",
+      "title": "Add a to-do item",
+      "description": "Capture actionable tasks and append them to context/to_do.md under today's session header. Always require confirm before writing.",
+      "prompt_file": "prompts/add_to_do.md",
+      "examples": [
+        "/add_to_do",
+        "Add todo: implement login validation",
+        "Log a task for updating README"
+      ]
+    },
+    {
+      "id": "log_gap",
+      "title": "Log a project gap",
+      "description": "Capture gaps or limitations in the project and append them to context/gaps.md with an incremental ID, title, description, impact, and optional fix. Always require confirm before writing.",
+      "prompt_file": "prompts/log_gap.md",
+      "examples": [
+        "/log_gap",
+        "Log a gap: missing error handling for login",
+        "Add project gap with high impact"
+      ]
+    },
+    {
+      "id": "summarize_session",
+      "title": "Summarize current session (diff-driven)",
+      "description": "Create a session summary by analyzing staged and unstaged diffs (pending changes). Draft 'Worked On' line-items from the diffs, preview them, and append to context/session_log.md on explicit confirm.",
+      "prompt_file": "prompts/summarize_session.md",
+      "examples": [
+        "/summarize_session",
+        "Summarize this session from current diffs",
+        "Create session log from staged and unstaged changes"
+      ]
+    },
+    {
+      "id": "report_bug",
+      "title": "Report and log a new bug",
+      "description": "Collect structured details about a bug and create a new file under context/bugs/BUG-XXX.md with YAML metadata and sections. Always require explicit confirm before writing.",
+      "prompt_file": "prompts/report_bug.md",
+      "examples": [
+        "/report_bug",
+        "Log a bug about crashing on login",
+        "Report a bug with steps to reproduce"
+      ]
+    },
+    {
+      "id": "describe_bug",
+      "title": "Describe a bug",
+      "description": "Given a Bug ID (BUG-XXX), read context/bugs/BUG-XXX.md and produce a concise structured description (ID, title, status, reproduction steps, expected vs actual, notes). Read-only, never modifies files.",
+      "prompt_file": "prompts/describe_bug.md",
+      "examples": [
+        "/describe_bug BUG-001",
+        "Describe bug 2",
+        "Summarize BUG-010 for sharing"
+      ]
+    },
+    {
+      "id": "solve_bug",
+      "title": "Define steps to solve a bug",
+      "description": "Given a Bug ID (per-file under context/bugs/BUG-XXX.md), analyze it and produce root-cause hypotheses, a debugging checklist, development tasks (with effort), and tests. Offer to append tasks to context/to_do.md but never write without explicit confirm.",
+      "prompt_file": "prompts/solve_bug.md",
+      "examples": [
+        "/solve_bug BUG-002",
+        "Help me solve BUG-005",
+        "Create a fix plan for BUG-010"
+      ]
+    },
+    {
+      "id": "close_bug",
+      "title": "Close a bug",
+      "description": "Given a Bug ID, collect resolution details, update status to Resolved, add a Resolution block and a History entry to context/bugs/BUG-###.md. Always require explicit confirm before writing.",
+      "prompt_file": "prompts/close_bug.md",
+      "examples": [
+        "/close_bug BUG-001",
+        "Close bug 3 with commit abc123",
+        "Mark BUG-010 as resolved"
       ]
     },
     {
@@ -85,6 +174,17 @@
         "/git_add all",
         "/git_add src/main.py",
         "Stage changes in src/ folder"
+      ]
+    },
+    {
+      "id": "git_sync",
+      "title": "Git sync after PR merge",
+      "description": "Switch back to main, pull latest changes after a PR merge, clean up feature branch (on confirm), and summarize repository status.",
+      "prompt_file": "prompts/git_sync.md",
+      "examples": [
+        "/git_sync",
+        "Sync my local repo after merging PR",
+        "Clean up feature branch and pull main"
       ]
     },
     {
