@@ -1,0 +1,199 @@
+{
+  "items": [
+    {
+      "id": "project_name",
+      "title": "Project Name",
+      "description": "A concise project name present at the top of context/goal.md or README.md (single-line).",
+      "required": true,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "No project name found in context/goal.md or README.md.",
+      "last_updated": null
+    },
+    {
+      "id": "project_brief",
+      "title": "Project Brief (elevator)",
+      "description": "A 1–2 line elevator pitch describing what the project does and its core value; located in context/goal.md under 'Brief' or in README.md 'About' section.",
+      "required": true,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "Missing elevator pitch.",
+      "last_updated": null
+    },
+    {
+      "id": "goals",
+      "title": "Project Goals",
+      "description": "Active and completed goals listed in context/goal.md under 'Active Goals' and 'Completed Goals' (short bullets, each ≤15 words).",
+      "required": true,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "Goals not specified in context/goal.md.",
+      "last_updated": null
+    },
+    {
+      "id": "primary_contact",
+      "title": "Primary Contact / Owner",
+      "description": "Owner or maintainer contact (name, GitHub handle, or email) in context/goal.md or README.md 'Maintainers' section.",
+      "required": true,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "No owner/maintainer info found.",
+      "last_updated": null
+    },
+    {
+      "id": "stack_summary",
+      "title": "Stack Summary",
+      "description": "Languages, frameworks, and key libraries (e.g., Python 3.x, FastAPI, React) listed in README.md or context/goal.md; include where deps are declared (pyproject.toml/package.json/requirements.txt).",
+      "required": true,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "Stack not evident from README or dependency files.",
+      "last_updated": null
+    },
+    {
+      "id": "dependencies_file",
+      "title": "Dependency files",
+      "description": "Presence of dependency manifest(s): pyproject.toml, requirements.txt, package.json. State which file(s) the project uses.",
+      "required": true,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "No dependency manifest detected.",
+      "last_updated": null
+    },
+    {
+      "id": "entrypoints",
+      "title": "Entrypoints",
+      "description": "Precise runtime entry file(s) (e.g., src/main.py, server.js) and where to open first; list in context/goal.md or context/understanding_sources file.",
+      "required": true,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "No clear entrypoint located.",
+      "last_updated": null
+    },
+    {
+      "id": "dev_commands",
+      "title": "Dev Commands",
+      "description": "Exact commands to set up dev environment and run the app locally (copy-pasteable), e.g., 'poetry install' and 'poetry run uvicorn src.main:app --reload'; expected in README.md 'Getting Started' or context/to_do.md.",
+      "required": true,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "Dev start commands not documented.",
+      "last_updated": null
+    },
+    {
+      "id": "test_commands",
+      "title": "Test Commands",
+      "description": "Exact command(s) to run the test suite (e.g., 'pytest tests/'); documented in README.md or context/to_do.md.",
+      "required": false,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "Test command not present.",
+      "last_updated": null
+    },
+    {
+      "id": "configuration",
+      "title": "Configuration & Env",
+      "description": "Where runtime configuration and required environment variables live (example .env, env docs, or README section 'Configuration'); list variables and brief purpose.",
+      "required": true,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "No configuration / env docs found.",
+      "last_updated": null
+    },
+    {
+      "id": "database_and_storage",
+      "title": "Database / Storage",
+      "description": "If the app uses persistent storage, indicate DB type, connection hints, migrations (where migrations live), and backup notes; documented in README.md or context/goal.md.",
+      "required": false,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "No DB/storage information found.",
+      "last_updated": null
+    },
+    {
+      "id": "deployment",
+      "title": "Deployment / Where it Runs",
+      "description": "Notes on how the app is deployed (hosts, cloud provider, Docker, serverless) and any deployment commands; documented in README.md or deployment docs.",
+      "required": false,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "Deployment info missing.",
+      "last_updated": null
+    },
+    {
+      "id": "health_and_metrics",
+      "title": "Health / Observability",
+      "description": "Presence of health endpoint (e.g., /health), logging, or metrics notes; documented in README or monitoring docs.",
+      "required": false,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "No health/observability info.",
+      "last_updated": null
+    },
+    {
+      "id": "ci_cd",
+      "title": "CI / Tests Status",
+      "description": "Whether CI exists and where (GitHub Actions, etc.), basic status and what runs on PRs; expected in repo root (.github/workflows) or README badges.",
+      "required": false,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "CI info not found.",
+      "last_updated": null
+    },
+    {
+      "id": "examples_and_usage",
+      "title": "Usage Examples / Quickstart",
+      "description": "Short runnable example(s) showing a typical flow (curl example or sample request) in README.md or docs/ examples/; helps agent craft tests and instructions.",
+      "required": false,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "No examples found.",
+      "last_updated": null
+    },
+    {
+      "id": "license_and_contrib",
+      "title": "License & Contribution Guide",
+      "description": "License file present and a CONTRIBUTING.md or short contributor guide in repo root or docs/; indicates legal and contribution expectations.",
+      "required": false,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "License/CONTRIBUTING not found.",
+      "last_updated": null
+    },
+    {
+      "id": "to_do",
+      "title": "To-Do Items",
+      "description": "Actionable checklist in context/to_do.md with at least one pending item; used by agent for small tasks and prioritization.",
+      "required": false,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "context/to_do.md missing or empty.",
+      "last_updated": null
+    },
+    {
+      "id": "think_later",
+      "title": "Think Later Backlog",
+      "description": "Ideas backlog in context/think_later.md with at least one idea entry (prefix 'Idea:'), used for brainstorming and future features.",
+      "required": false,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "context/think_later.md missing or empty.",
+      "last_updated": null
+    },
+    {
+      "id": "readme_minimal",
+      "title": "README Minimal (getting started)",
+      "description": "README contains minimal sections: About, Getting Started (dev commands), and How to Run; used by agent as first-ref.",
+      "required": true,
+      "clarity": "unclear",
+      "clarity_score": 0.0,
+      "remarks": "README lacks Getting Started or About sections.",
+      "last_updated": null
+    }
+  ],
+  "summary": {
+    "overall_clarity_score": 0.0,
+    "last_run": null,
+    "remarks": "Initialized: run /check_context to verify and update clarity across items."
+  }
+}
