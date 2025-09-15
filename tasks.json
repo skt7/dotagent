@@ -1,0 +1,113 @@
+{
+  "tasks": [
+    {
+      "id": "check_context",
+      "title": "Check context status",
+      "description": "Evaluate context/tracker.json items and update it directly; also produce context/check_summary.md (combined summary + details needed).",
+      "prompt_file": "prompts/check_context.md",
+      "examples": [
+        "/check_context",
+        "Check project context",
+        "What context details are missing?"
+      ]
+    },
+    {
+      "id": "brainstorm",
+      "title": "Brainstorm idea (raw → structured)",
+      "description": "Convert a raw idea into a structured spec in context/idea.md, including title, elevator pitch, features, risks, and milestones.",
+      "prompt_file": "prompts/brainstorm.md",
+      "examples": [
+        "/brainstorm",
+        "Brainstorm this idea: 'generate workout plans from calendar'",
+        "Help me evolve an idea into an explainable spec"
+      ]
+    },
+    {
+      "id": "next_to_do",
+      "title": "Top next to-dos",
+      "description": "Produce the top 3–5 to-dos to focus on for the next commit, based on tracker.json, idea.md, to_do.md, and goal.md.",
+      "prompt_file": "prompts/next_to_do.md",
+      "examples": [
+        "/next_to_do",
+        "What should I work on next for this idea?",
+        "Top next tasks for commit"
+      ]
+    },
+    {
+      "id": "update_to_do",
+      "title": "Update to-do list",
+      "description": "Append one or more new items to context/to_do.md (creates file if missing).",
+      "prompt_file": "prompts/update_to_do.md",
+      "examples": [
+        "/update_to_do Add unit tests for auth",
+        "Add 'document README' to to-do"
+      ]
+    },
+    {
+      "id": "git_commit",
+      "title": "Git commit helper",
+      "description": "Refine a commit message, propose branch name, and generate exact git commands to run locally (never run automatically).",
+      "prompt_file": "prompts/git_commit.md",
+      "examples": [
+        "/git_commit",
+        "Commit current changes with message 'wip: add login UI'",
+        "Create commit for today's work"
+      ]
+    },
+    {
+      "id": "git_status",
+      "title": "Git status helper",
+      "description": "Check current git status (modified, staged, untracked files) and produce a short report.",
+      "prompt_file": "prompts/git_status.md",
+      "examples": [
+        "/git_status",
+        "Show git status",
+        "Which files are modified and staged?"
+      ]
+    },
+    {
+      "id": "git_diff",
+      "title": "Git diff helper",
+      "description": "Inspect repo changes by running git diff commands. Categorize Added/Modified/Deleted/Renamed files and save a report to artifacts/git_diff_report.md.",
+      "prompt_file": "prompts/git_diff.md",
+      "examples": [
+        "/git_diff",
+        "Show git diff for last commit",
+        "What files changed in staged diff?"
+      ]
+    },
+    {
+      "id": "git_add",
+      "title": "Git add helper",
+      "description": "Stage files for commit by generating explicit git add commands based on user input. Always confirm before finalizing.",
+      "prompt_file": "prompts/git_add.md",
+      "examples": [
+        "/git_add all",
+        "/git_add src/main.py",
+        "Stage changes in src/ folder"
+      ]
+    },
+    {
+      "id": "update_readme",
+      "title": "Update README.md (staged-diff first, orchestrates internal tasks)",
+      "description": "Use staged diff as the source of truth. Orchestrate internal tasks (git_status, git_diff, git_add, check_context, git_commit) to gather data, present inline README edits derived from staged changes, and on explicit 'confirm' apply edits. Never run git or push automatically; always require human confirmation for writes and staging.",
+      "prompt_file": "prompts/update_readme.md",
+      "examples": [
+        "/update_readme",
+        "Update README using staged changes and internal tasks",
+        "Sync README.md with staged diff"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "List available tasks",
+      "description": "Display all registered tasks with their id, title, description, and example invocations.",
+      "prompt_file": "prompts/help.md",
+      "examples": [
+        "/help",
+        "What tasks are available?",
+        "Show me available commands"
+      ]
+    }
+  ]
+}

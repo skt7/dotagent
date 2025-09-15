@@ -1,0 +1,9 @@
+# Ignore generated artifacts
+artifacts/*
+!artifacts/.gitkeep
+
+# Ignore dump directory
+dump/
+
+# Ignore .cursor directory
+.cursor/
