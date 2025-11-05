@@ -1,16 +1,14 @@
-# Ignore generated artifacts
-artifacts/*
-!artifacts/.gitkeep
+# Cursor IDE
+.cursor/
+.cursorindexingignore
 
-# Ignore bugs directory
-context/bugs/*
-!context/bugs/.gitkeep
-
-# Ignore dump directory
+# Development/Testing  
+.specstory/
 dump/
 
-# Ignore .cursor directory
-.cursor/
+# Temporary work files
+work/*_preview.md
+work/*.log
 
-#Ignore dotagent context
-dotagent-context/
+# System files
+.DS_Store

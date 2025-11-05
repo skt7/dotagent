@@ -1,0 +1,34 @@
+{
+  "project": {
+    "name": "",
+    "description": "",
+    "repository": "",
+    "status": "active"
+  },
+  "context": {
+    "last_updated": "",
+    "clarity_score": 0.0,
+    "completion": 0.0
+  },
+  "goals": {
+    "current": [],
+    "completed": []
+  },
+  "priorities": {
+    "high": [],
+    "medium": [],
+    "low": []
+  },
+  "tracking": {
+    "open_tasks": 0,
+    "open_bugs": 0,
+    "open_gaps": 0,
+    "active_ideas": 0
+  },
+  "metadata": {
+    "owner": "",
+    "team": [],
+    "tags": []
+  }
+}
+
