@@ -9,10 +9,15 @@ When users install dotagent, this repository becomes their `.dotagent/` director
 ```
 user-project/
 ├── .dotagent/          # ← This repo
-│   ├── commands/       # Command definitions  
+│   ├── commands/       # Command definitions (flat)
 │   ├── work/           # User's workspace
-│   ├── agent_prompt.md
-│   └── context.json
+│   ├── agent_prompt.md # System prompt
+│   ├── context.json    # Project context
+│   └── setup.sh        # Installation script
+├── .cursor/            # Created by setup.sh
+│   ├── rules/
+│   │   └── dotagent.mdc  # Agent prompt (copy)
+│   └── commands/         # All commands (copies)
 ├── src/
 ├── README.md
 └── ...
@@ -22,49 +27,48 @@ user-project/
 
 ## Directory Structure
 
-### `commands/` - Command Definitions
+### `commands/` - Command Definitions (Flat Structure)
 
-Commands are organized by category. Each `.md` file defines a slash command.
+All commands are flat `.md` files. Cursor requires this structure for command discovery.
 
 ```
 commands/
-├── git/                  # Git workflow (6 commands)
-│   ├── status.md         # → /git_status
-│   ├── diff.md           # → /git_diff
-│   ├── add.md            # → /git_add
-│   ├── commit.md         # → /git_commit
-│   ├── create_branch.md  # → /git_create_branch
-│   └── sync.md           # → /git_sync
-│
-├── tasks/                # Task management (3 commands)
-│   ├── add.md            # → /tasks_add
-│   ├── update.md         # → /tasks_update
-│   └── next.md           # → /tasks_next
-│
-├── issues/               # Bug/gap tracking (5 commands)
-│   ├── report.md         # → /issues_report
-│   ├── log_gap.md        # → /issues_log_gap
-│   ├── describe.md       # → /issues_describe
-│   ├── solve.md          # → /issues_solve
-│   └── close.md          # → /issues_close
-│
-├── ideas/                # Idea management (2 commands)
-│   ├── brainstorm.md     # → /ideas_brainstorm
-│   └── capture.md        # → /ideas_capture
-│
-├── sessions/             # Session logging (1 command)
-│   └── summarize.md      # → /sessions_summarize
-│
-├── project/              # Project-wide (2 commands)
-│   ├── check.md          # → /project_check
-│   └── readme.md         # → /project_readme
-│
-└── help.md               # → /help (root-level command)
+├── git_status.md         # → /git_status
+├── git_diff.md           # → /git_diff
+├── git_add.md            # → /git_add
+├── git_commit.md         # → /git_commit
+├── git_create_branch.md  # → /git_create_branch
+├── git_sync.md           # → /git_sync
+├── tasks_add.md          # → /tasks_add
+├── tasks_update.md       # → /tasks_update
+├── tasks_next.md         # → /tasks_next
+├── issues_report.md      # → /issues_report
+├── issues_log_gap.md     # → /issues_log_gap
+├── issues_describe.md    # → /issues_describe
+├── issues_solve.md       # → /issues_solve
+├── issues_close.md       # → /issues_close
+├── ideas_brainstorm.md   # → /ideas_brainstorm
+├── ideas_capture.md      # → /ideas_capture
+├── sessions_summarize.md # → /sessions_summarize
+├── project_check.md      # → /project_check
+├── project_readme.md     # → /project_readme
+└── help.md               # → /help
 ```
 
+**Total: 20 commands**
+
 **Command Naming Convention:**
-- Subdirectory: `commands/{category}/{name}.md` → `/{category}_{name}`
-- Root level: `commands/{name}.md` → `/{name}`
+- Pattern: `{category}_{name}.md` → `/{category}_{name}`
+- Root commands: `{name}.md` → `/{name}`
+- Examples:
+  - `git_status.md` → `/git_status`
+  - `tasks_add.md` → `/tasks_add`
+  - `help.md` → `/help`
+
+**Why Flat?**
+- Cursor only discovers commands in flat structure
+- Subdirectories (`commands/git/status.md`) don't work
+- Prefixes provide categorization (`git_`, `tasks_`, etc.)
 
 ---
 
@@ -97,293 +101,244 @@ work/
 │   │   └── note.md       # Note template (singular)
 │   └── *.md              # User's note files
 │
-└── sessions/             # Session logs & tracking
+├── sessions/             # Session logs & tracking
+│   ├── templates/
+│   │   └── session.md    # Session template (singular)
+│   └── session.md        # User's session log (created by commands)
+│
+└── docs/                 # Project specifications
     ├── templates/
-    │   └── session.md    # Session log template (singular)
-    └── session.md        # User's session log (created by commands)
+    │   └── specification.md  # Spec template (singular)
+    └── *.md              # User's spec files
 ```
 
-**Key Principles:**
-- **Templates are singular:** `todo.md`, `bug.md`, `idea.md` (not plural)
-- **Working files match templates:** Commands create files using template names
-- **Templates/** Only contain placeholders, never actual data
-- **Templates are customizable:** Users can edit without changing commands
+**Template System:**
+- Templates are **always singular** (`todo.md`, not `todos.md`)
+- Commands **must read templates** before creating files
+- Templates contain only placeholders and structure
+- See `agent_prompt.md` section D.1 for template usage rules
 
 ---
 
 ### Root Files
 
-| File | Purpose |
-|------|---------|
-| `agent_prompt.md` | System prompt for Cursor IDE (configure as Cursor Rule) |
-| `context.json` | Project-wide context and tracking stats |
-| `README.md` | Getting started guide and feature overview |
-| `STRUCTURE.md` | This file—architecture documentation |
-| `LICENSE` | License information |
-| `.gitignore` | Files to ignore in version control |
+```
+.dotagent/
+├── agent_prompt.md       # System prompt for Cursor (defines AI behavior)
+├── context.json          # Project-wide context tracking
+├── setup.sh              # User installation script
+├── README.md             # Usage documentation
+├── STRUCTURE.md          # This file
+└── .gitignore            # Git ignore patterns
+```
+
+**`agent_prompt.md`** - Core system instructions:
+- Defines how AI interprets commands
+- Maps slash commands to files
+- Enforces template usage
+- Safety rules (no auto-commit, approval required)
+
+**`context.json`** - Project metadata:
+```json
+{
+  "project_name": "example",
+  "description": "...",
+  "tech_stack": [],
+  "key_files": [],
+  "current_focus": ""
+}
+```
+
+**`setup.sh`** - Installation automation:
+- Copies `agent_prompt.md` → `.cursor/rules/dotagent.mdc`
+- Copies `commands/*.md` → `.cursor/commands/`
+- Creates necessary directories
 
 ---
 
-## Command → Template → File Mapping
+## Installation Flow
 
-Complete mapping of which commands use which templates and create which files:
+### For Users
 
-| Command | Reads Template | Creates/Updates File |
-|---------|---------------|---------------------|
-| **Tasks** |||
+```bash
+# 1. Clone into project
+git clone <repo-url> .dotagent
+
+# 2. Run setup
+cd .dotagent
+./setup.sh
+
+# 3. Restart Cursor
+# Commands are now available!
+
+# 4. Try it
+/help
+```
+
+### What Setup Does
+
+```
+Before:                      After:
+user-project/               user-project/
+└── .dotagent/              ├── .dotagent/          (untouched)
+    ├── commands/           └── .cursor/
+    ├── work/                   ├── rules/
+    ├── agent_prompt.md             └── dotagent.mdc  ✓ copied
+    └── setup.sh                └── commands/
+                                     ├── git_status.md  ✓ copied
+                                     ├── tasks_add.md   ✓ copied
+                                     └── ... (20 files)
+```
+
+---
+
+## Command Categories
+
+### 🔄 Git Operations (6 commands)
+- `git_status` - Check repository status
+- `git_diff` - Show detailed changes
+- `git_add` - Stage files
+- `git_commit` - Create conventional commits
+- `git_create_branch` - Create and switch branch
+- `git_sync` - Pull and push changes
+
+**Safety:** Never auto-executes git commands, always shows what to run
+
+### 📋 Task Management (3 commands)
+- `tasks_add` - Add new development task
+- `tasks_update` - Update or complete tasks
+- `tasks_next` - Suggest next prioritized task
+
+**Files:** `work/tasks/todo.md`
+
+### 🐛 Issue Tracking (5 commands)
+- `issues_report` - Report bug (creates BUG-XXX.md)
+- `issues_log_gap` - Log feature gap or limitation
+- `issues_describe` - Summarize bug details
+- `issues_solve` - Generate fix plan
+- `issues_close` - Mark bug as resolved
+
+**Files:** `work/issues/BUG-*.md`, `work/issues/gap.md`
+
+### 💡 Idea Management (2 commands)
+- `ideas_brainstorm` - Structure raw idea into spec
+- `ideas_capture` - Quick idea log with hotness tracking
+
+**Files:** `work/ideas/idea.md`
+
+### 📝 Session Tracking (1 command)
+- `sessions_summarize` - Generate session summary from git changes
+
+**Files:** `work/sessions/session.md`
+
+### 📄 Project Context (2 commands)
+- `project_check` - Review and update context.json
+- `project_readme` - Generate/update README
+
+**Files:** `context.json`, `README.md`
+
+### ℹ️ Help (1 command)
+- `help` - List all available commands
+
+---
+
+## Command-to-Template Mapping
+
+| Command | Template Used | Output File(s) |
+|---------|---------------|----------------|
 | `/tasks_add` | `work/tasks/templates/todo.md` | `work/tasks/todo.md` |
-| `/tasks_update` | `work/tasks/templates/todo.md` | `work/tasks/todo.md` |
-| `/tasks_next` | `work/tasks/templates/todo.md` | Suggests tasks (reads existing) |
-| **Issues** |||
-| `/issues_report` | `work/issues/templates/bug.md` | `work/issues/BUG-XXX.md` (new file each time) |
+| `/tasks_update` | (reads existing) | `work/tasks/todo.md` |
+| `/tasks_next` | (reads existing) | (preview only) |
+| `/issues_report` | `work/issues/templates/bug.md` | `work/issues/BUG-NNN.md` |
 | `/issues_log_gap` | `work/issues/templates/gap.md` | `work/issues/gap.md` |
-| `/issues_describe` | - | Reads `work/issues/BUG-XXX.md` (read-only) |
-| `/issues_solve` | - | Reads `work/issues/BUG-XXX.md` (read-only) |
-| `/issues_close` | - | Updates `work/issues/BUG-XXX.md` |
-| **Ideas** |||
+| `/issues_close` | (reads existing) | `work/issues/BUG-NNN.md` |
 | `/ideas_brainstorm` | `work/ideas/templates/idea.md` | `work/ideas/idea.md` |
 | `/ideas_capture` | `work/ideas/templates/idea.md` | `work/ideas/idea.md` |
-| **Sessions** |||
 | `/sessions_summarize` | `work/sessions/templates/session.md` | `work/sessions/session.md` |
-| **Project** |||
-| `/project_check` | - | Updates `context.json` (root level) |
-| `/project_readme` | - | Updates `README.md` (root level) |
-| **Git** |||
-| All git commands | - | Read-only or suggest commands (never auto-execute) |
-| **Help** |||
-| `/help` | - | Scans `commands/` and displays list |
-
----
-
-## File Lifecycle
-
-### Initial Setup
-1. User installs dotagent as `.dotagent/` in their project
-2. `work/` subdirectories are empty (only `templates/` exist)
-3. First command invocation reads template and creates initial file
-
-### Development Workflow
-1. User runs command (e.g., `/tasks_add`)
-2. Command checks if `work/tasks/todo.md` exists
-3. If not, command reads `work/tasks/templates/todo.md` and uses its structure
-4. Command generates content based on template + user input
-5. Command shows preview and asks for `confirm`
-6. On confirm, command writes file to `work/tasks/todo.md`
-
-### Template Customization
-1. User edits `work/tasks/templates/todo.md` with custom format
-2. Future `/tasks_add` commands automatically use custom format
-3. No need to modify command files—templates are the source of truth for structure
-
----
-
-## Naming Conventions
-
-### Consistent Singular Naming
-All templates and default working files use **singular** names:
-
-| Category | Template | Working File | Why Singular? |
-|----------|----------|--------------|---------------|
-| Tasks | `todo.md` | `todo.md` | Matches common usage "todo list" |
-| Issues | `bug.md` | `BUG-XXX.md` | Individual bug files |
-| Issues | `gap.md` | `gap.md` | Gap log is singular document |
-| Ideas | `idea.md` | `idea.md` | Idea log is singular document |
-| Notes | `note.md` | `*.md` | Template for creating notes |
-| Sessions | `session.md` | `session.md` | Session log is singular document |
-
-**Exception:** Bug files use `BUG-001.md`, `BUG-002.md` pattern (each bug is separate file)
-
----
-
-## Version Control Strategy
-
-### What to Track in Git
-
-**Option 1: Track Everything (Recommended for Teams)**
-```gitignore
-# In project root .gitignore
-# (nothing - track all of .dotagent/)
-```
-✅ Whole team uses same commands  
-✅ Share tasks/bugs/ideas across team  
-✅ Version control your workflow
-
-**Option 2: Commands Only**
-```gitignore
-# In project root .gitignore
-.dotagent/work/
-```
-✅ Share commands but not your personal todos  
-❌ Can't collaborate on tasks/bugs
-
-**Option 3: Local Only**
-```gitignore
-# In project root .gitignore
-.dotagent/
-```
-✅ Keep workflow completely local  
-❌ Team doesn't benefit from commands
-
-### dotagent's .gitignore
-
-The `.dotagent/.gitignore` itself ignores:
-```
-.cursor/              # Cursor IDE config
-.DS_Store             # macOS files
-```
-
----
-
-## Extensibility
-
-### Adding New Commands
-
-1. Create `.md` file in appropriate category:
-   ```bash
-   touch commands/tasks/archive.md
-   ```
-
-2. Command becomes available as:
-   ```
-   /tasks_archive
-   ```
-
-3. Follow existing command structure:
-   - Prompt definition
-   - Behavior (step-by-step)
-   - Output format
-   - Rules
-
-### Adding New Work Categories
-
-1. Create directory under `work/`:
-   ```bash
-   mkdir -p work/research/templates
-   ```
-
-2. Add template:
-   ```bash
-   touch work/research/templates/paper.md
-   ```
-
-3. Create commands that reference it:
-   ```bash
-   touch commands/research/add.md
-   ```
-
-### Adding New Templates
-
-1. Add template to appropriate directory:
-   ```bash
-   touch work/tasks/templates/sprint.md
-   ```
-
-2. Update commands to reference new template (or create new command)
+| `/project_readme` | `work/docs/templates/specification.md` | `README.md` |
 
 ---
 
 ## Design Principles
 
-### 1. Separation of Concerns
-- `commands/` = What dotagent **can do** (capabilities)
-- `work/` = What dotagent **manages** (user's data)
-- `agent_prompt.md` = How dotagent **behaves** (orchestration rules)
-- `context.json` = What dotagent **knows** (project metadata)
-
-### 2. Template-Driven Structure
-- Commands never hardcode file structures
-- Templates are the single source of truth for formats
-- Users can customize templates without touching commands
-- Enables consistency across all generated files
-
-### 3. Safety & Transparency
-- Preview before write (all mutation commands)
-- Explicit confirm required
-- Git commands suggest, never execute
-- Read-only by default
-
-### 4. Discoverability
-- `/help` dynamically scans and lists all commands
-- Category-based organization mirrors `work/` structure
-- Command names follow predictable pattern
-
-### 5. Simplicity
-- Just markdown files and directories
-- No build step, no dependencies
-- Works with any text editor
-- Version controllable
+1. **Flat Command Structure** - Cursor compatibility requires flat `commands/` directory
+2. **Template-Driven** - All file creation uses templates for consistency
+3. **User Workspace** - All managed content in `work/` subdirectories
+4. **Safety First** - No auto-commits, no auto-execution, always preview
+5. **Singular Naming** - Templates use singular names (`todo.md`, not `todos.md`)
+6. **Category Prefixes** - Commands use `category_name` pattern for organization
+7. **Copy, Don't Link** - Setup copies files to avoid bidirectional issues
 
 ---
 
-## Technical Details
+## Adding New Commands
 
-### Command Discovery
-`/help` works by:
-1. Scanning `commands/` directory recursively
-2. Finding all `.md` files
-3. Extracting Goal line or first heading
-4. Generating command ID from path
-5. Grouping by category (directory name)
+To add a new command:
 
-### Template Usage (Section D.1 in agent_prompt.md)
-When creating new files, commands **MUST**:
-1. Check if target file exists
-2. If not, read appropriate template from `work/{category}/templates/`
-3. Use template structure as base
-4. Replace placeholders with user data
-5. Write new file
+1. **Create command file**: `commands/{category}_{name}.md`
+2. **Update help.md**: Add to appropriate category
+3. **Create template** (if needed): `work/{category}/templates/{name}.md`
+4. **Update STRUCTURE.md**: Document the command
+5. **Test**: Ensure command works in Cursor
 
-This is enforced by agent_prompt.md Section D.1.
-
-### File Naming
-- Templates: Always singular (`todo.md`, not `todos.md`)
-- Working files: Match template names (`todo.md`)
-- Bug files: Exception using `BUG-XXX.md` pattern
-- Preview files: Singular (`idea_preview.md`, `next_todo_preview.md`)
+Example:
+```bash
+# Add new research command
+touch commands/research_add.md
+# Edit file with Goal, Inputs, Behavior, Output
+# Add to help.md under "Research" category
+```
 
 ---
 
-## Migration Notes
+## Development vs Production
 
-If upgrading from an older version of dotagent:
+**In this repo (development):**
+- Commands are in `commands/` (flat)
+- Work templates in `work/*/templates/`
+- Clean, no user data
 
-### Old → New Structure
-| Old | New | Notes |
-|-----|-----|-------|
-| `tasks.json` | Deleted | Commands now in `commands/` directory |
-| `prompts/` | `commands/` | Renamed for clarity |
-| `artifacts/` | `work/` | Renamed to better reflect purpose |
-| `context/` | `work/` + `context.json` | Split into workspace + metadata |
-| `/check_context` | `/project_check` | Renamed for clarity |
-| `/update_readme` | `/project_readme` | Renamed to match category |
-| `/brainstorm` | `/ideas_brainstorm` | Added category prefix |
+**In user's project (production):**
+- `.dotagent/` contains this repo
+- `.cursor/` contains copies (setup.sh creates)
+- `work/` contains actual user data
 
-### Template Names Changed
-| Old | New |
-|-----|-----|
-| `todos.md` | `todo.md` |
-| `ideas.md` | `idea.md` |
-| `gaps.md` | `gap.md` |
-| `BUG-template.md` | `bug.md` |
-| `session_log.md` | `session.md` |
+**Separation is key:** User can modify `.cursor/` commands without affecting `.dotagent/` repo.
 
 ---
 
-## Troubleshooting
+## Testing
 
-**Q: Commands not showing up in `/help`?**  
-A: Make sure `.md` files are in `commands/` subdirectories with correct naming.
+See `tests/README.md` for comprehensive testing documentation.
 
-**Q: Template not being used?**  
-A: Check file exists at `work/{category}/templates/{name}.md` (singular name).
-
-**Q: Command using wrong paths?**  
-A: Commands should reference `work/` not `artifacts/` or `context/`.
-
-**Q: Git commands not working?**  
-A: Git commands **suggest** commands for you to run—they never auto-execute.
+**Quick test:**
+```bash
+cd tests/
+./setup_test_env.sh
+cd dummy_project/
+cursor test_plan.md
+```
 
 ---
 
-**Last Updated:** 2024-11-06  
-**Version:** 2.0 (Post-refactor)
+## Migration Guide
+
+**From nested to flat structure:**
+
+Old:
+```
+commands/git/status.md → /git_status
+commands/tasks/add.md → /tasks_add
+```
+
+New:
+```
+commands/git_status.md → /git_status
+commands/tasks_add.md → /tasks_add
+```
+
+No user-facing changes! Slash commands remain the same.
+
+---
+
+**For questions or contributions, see README.md**

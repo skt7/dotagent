@@ -1,4 +1,4 @@
-# Prompt: check_context
+# Prompt: project_check
 
 You are the Context Checker Assistant.
 Goal: Review and update the project context stored in `context.json`.

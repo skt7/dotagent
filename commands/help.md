@@ -1,78 +1,59 @@
-# Prompt: help
+# Help - List All Commands
 
-You are the Help Assistant.  
-Your goal: List all available dotagent commands with their descriptions and example invocations.
+## Goal
+Show user all available dotagent commands grouped by category.
 
----
+## Inputs
+- None
 
 ## Behavior
 
-1. **Scan for available commands**
-   - Read all `.md` files from `commands/` directory structure
-   - Group by category (git, tasks, issues, ideas, sessions, project)
-   - Generate command IDs from file paths (e.g., `commands/git/status.md` → `/git_status`)
-   - Root-level commands use just the filename (e.g., `commands/help.md` → `/help`)
+Display all commands organized by category:
 
-2. **Display command list**
-   - Show commands grouped by category
-   - For each command:
-     - Command ID (slash command format)
-     - Short title (from first heading or Goal line in file)
-     - Brief description (one line)
+```
+📋 DOTAGENT COMMANDS
 
-3. **Output format**
-   ```
-   ## Available Commands
+═══ Git Operations ═══
+/git_add          - Stage files for commit
+/git_commit       - Create conventional commits
+/git_create_branch - Create and switch to new branch
+/git_diff         - Show detailed file changes
+/git_status       - Check repository status
+/git_sync         - Pull and push changes
 
-   ### Git
-   - /git_status — Check repository status
-   - /git_diff — Show changes
-   - /git_add — Stage files
-   - /git_commit — Commit changes
-   - /git_create_branch — Create new branch
-   - /git_sync — Sync with remote
+═══ Task Management ═══
+/tasks_add        - Add new development task
+/tasks_update     - Update task status
+/tasks_next       - Suggest next task to work on
 
-   ### Tasks
-   - /tasks_add — Add new task to todo list
-   - /tasks_update — Update or complete tasks
-   - /tasks_next — Suggest next prioritized todos
+═══ Issue Tracking ═══
+/issues_report    - Report a bug with details
+/issues_close     - Mark bug as resolved
+/issues_describe  - Get detailed bug information
+/issues_solve     - Mark issue as solved
+/issues_log_gap   - Log a feature gap
 
-   ### Issues
-   - /issues_report — Report a bug (creates BUG-XXX.md)
-   - /issues_log_gap — Log a gap or limitation
-   - /issues_describe — Describe/summarize a bug
-   - /issues_solve — Generate fix plan for bug
-   - /issues_close — Close/resolve a bug
+═══ Idea Management ═══
+/ideas_brainstorm - Structure raw idea into spec
+/ideas_capture    - Quick idea capture
 
-   ### Ideas
-   - /ideas_brainstorm — Structure a raw idea into spec
-   - /ideas_capture — Quick idea log with hotness tracking
+═══ Session Tracking ═══
+/sessions_summarize - Generate session summary from git changes
 
-   ### Sessions
-   - /sessions_summarize — Log session summary from diffs
+═══ Project Context ═══
+/project_check    - Review project context
+/project_readme   - Generate/update README
 
-   ### Project
-   - /project_check — Check and update context.json
-   - /project_readme — Update README from staged changes
+═══ Help ═══
+/help             - Show this help message
 
-   ### Root
-   - /help — Show this help (you are here!)
-   ```
+💡 Usage: Type any command (e.g., /git_status) to execute it.
+```
 
-4. **Additional info**
-   - Commands are defined in `commands/` directory
-   - Each category has its own subdirectory
-   - Commands are invoked with `/` prefix
-   - Natural language works too: "add a task", "report bug", etc.
+## Output
+Reply with the command list above.
 
----
+## Examples
 
-## Rules
-
-- Read-only operation, never modify files
-- Scan all `.md` files in `commands/` recursively
-- Generate command names following convention:
-  - Subdirectory commands: `/{category}_{name}` (e.g., `/git_status`)
-  - Root-level commands: `/{name}` (e.g., `/help`)
-- Extract short description from Goal line or first heading in each file
-
+User: `/help`  
+Assistant: [Shows full command list]

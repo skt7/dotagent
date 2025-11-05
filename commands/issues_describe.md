@@ -54,4 +54,4 @@ Goal: given a Bug ID (e.g., BUG-001), read the bug file under `work/issues/BUG-0
 - Read-only — never modify bug files.
 - Keep summary ≤15 lines.
 - Always mention Bug ID.
-- If bug file not found, say: "❌ Bug BUG-XXX not found. Please check ID or create it with /report_bug."
+- If bug file not found, say: "❌ Bug BUG-XXX not found. Please check ID or create it with /issues_report."

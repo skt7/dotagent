@@ -92,4 +92,4 @@ git push
 - Require explicit confirm before updating files.
 - Never overwrite description or steps-to-reproduce. Only add resolution + update status.
 - Do not run git automatically — only suggest commands.
-- If follow-up post_actions exist, mark with ⚠️ caution and suggest adding them as new todos (/update_to_do).
+- If follow-up post_actions exist, mark with ⚠️ caution and suggest adding them as new todos (/tasks_add).

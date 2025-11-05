@@ -13,7 +13,7 @@ When helpful, **invoke** these internal tasks as subtasks and consume their outp
 - `git_diff` — obtains staged diff details.
 - `git_add` — suggests staging commands.
 - `git_commit` — prepares commit message and branch when README has been updated.
-- `check_context` — optional: check tracker.json / context if staged context files may affect README.
+- `project_check` — optional: check context.json if staged context files may affect README.
 
 ---
 
@@ -21,7 +21,7 @@ When helpful, **invoke** these internal tasks as subtasks and consume their outp
 
 1. Always start by invoking `git_status` (or request the user to paste `git status --short --branch`).
 2. If staged changes exist, invoke `git_diff` (or request staged diff).
-3. Optionally invoke `/check_context` if `work/*` files or `context.json` are staged.
+3. Optionally invoke `/project_check` if `work/*` files or `context.json` are staged.
 
 **Rule:** staged diff is the single source of truth for WHAT to update. Context files are secondary enrichment if staged.
 

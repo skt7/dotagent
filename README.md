@@ -24,9 +24,16 @@ git clone <repo-url> .dotagent
 git submodule add <repo-url> .dotagent
 ```
 
-### 2. Configure Cursor
-Open `.dotagent/agent_prompt.md` and paste its contents into Cursor as a **Cursor Rule**  
-(Cursor Settings → Rules → New Rule → paste content)
+### 2. Run Setup
+```bash
+cd .dotagent
+./setup.sh
+```
+
+This automatically:
+- Copies `agent_prompt.md` → `.cursor/rules/dotagent.mdc`
+- Copies all commands → `.cursor/commands/`
+- Sets up your Cursor environment
 
 ### 3. Try Commands
 ```
@@ -76,14 +83,14 @@ Run `/help` in chat for the complete list. Commands are organized by category:
 
 ```
 .dotagent/
-├── commands/          # 20 command definitions (what dotagent can do)
-│   ├── git/           # Git workflow commands
-│   ├── tasks/         # Task management commands
-│   ├── issues/        # Bug/gap tracking commands
-│   ├── ideas/         # Idea brainstorming commands
-│   ├── sessions/      # Session logging commands
-│   ├── project/       # Project-wide commands
-│   └── help.md        # Help command
+├── commands/          # 20 command definitions (flat structure)
+│   ├── git_status.md       # /git_status
+│   ├── git_commit.md       # /git_commit
+│   ├── tasks_add.md        # /tasks_add
+│   ├── issues_report.md    # /issues_report
+│   ├── ideas_brainstorm.md # /ideas_brainstorm
+│   ├── help.md             # /help
+│   └── ... (14 more)
 │
 ├── work/              # Your workspace (what dotagent manages)
 │   ├── tasks/         # Your todos and task lists

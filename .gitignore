@@ -6,6 +6,11 @@
 .specstory/
 dump/
 
+# Test artifacts
+tests/dummy_project/work/
+tests/dummy_project/.dotagent
+tests/TEST_RESULTS.md
+
 # Temporary work files
 work/*_preview.md
 work/*.log

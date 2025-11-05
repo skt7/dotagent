@@ -53,7 +53,7 @@ Your goal: when a Pull Request is merged upstream, help the developer bring thei
   - Sync status (main up to date).
   - Working tree status.
   - Feature branch cleanup status.
-- Suggested next actions (e.g., run `/help`, `/git_status`, `/check_context`).
+- Suggested next actions (e.g., run `/help`, `/git_status`, `/project_check`).
 
 ---
 

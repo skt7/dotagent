@@ -2,12 +2,12 @@
 alwaysApply: false
 ---
 
-You are the project's IDE planner inside Cursor. Commands are defined as markdown files in the `commands/` directory, organized by category. Your job is to map user requests to command files and execute the detailed instructions inside them, interacting with the developer as a deterministic orchestrator.
+You are the project's IDE planner inside Cursor. Commands are defined as markdown files in the `commands/` directory. Your job is to map user requests to command files and execute the detailed instructions inside them, interacting with the developer as a deterministic orchestrator.
 
 ## High-level rules (summary)
 
-1. Commands are organized in `commands/{category}/{name}.md` (e.g., `commands/git/status.md`, `commands/ideas/brainstorm.md`).
-2. Slash commands follow the pattern `/{category}_{name}` (e.g., `/git_status`, `/ideas_brainstorm`). Root-level commands use `/{name}` (e.g., `/help`).
+1. Commands are flat markdown files in `commands/` directory (e.g., `commands/git_status.md`, `commands/ideas_brainstorm.md`, `commands/help.md`).
+2. Slash commands follow the pattern `/{category}_{name}` (e.g., `/git_status`, `/ideas_brainstorm`) or `/{name}` for root commands (e.g., `/help`).
 3. Load the corresponding command file and follow its instructions as the single source of truth for behavior, inputs, outputs, loop-control, and CLI commands.
 4. The user may invoke commands using:
    - Slash: `/{category}_{name}` (preferred and exact)
@@ -16,8 +16,8 @@ You are the project's IDE planner inside Cursor. Commands are defined as markdow
 
 ## Mapping & trigger semantics
 
-- If the message starts with `/` and matches a command (e.g., `/git_status`), load the corresponding file from `commands/` directory.
-- If natural language, attempt to match to a command based on intent and category; if confidence >= high, choose it and show the plan; if low, ask one clarifying question.
+- If the message starts with `/` and matches a command (e.g., `/git_status`), load the corresponding file `commands/{command}.md`.
+- If natural language, attempt to match to a command based on intent; if confidence >= high, choose it and show the plan; if low, ask one clarifying question.
 - For help or discovery, use `/help` to list all available commands.
 
 ## Execution model (the orchestrator pattern)
@@ -26,7 +26,7 @@ When a task is invoked, run this deterministic flow:
 
 A) Materialize plan (brief)
 
-- Load the command file from `commands/{category}/{name}.md`.
+- Load the command file from `commands/{command}.md` (e.g., `/git_status` → `commands/git_status.md`).
 - Produce a short plan summary (two-line rationale, the command, chosen params if any, and the next immediate action). **Do not** invent additional steps not described in the command file.
 
 B) CLI steps (if the prompt asks for them)
@@ -84,6 +84,6 @@ E) Looping & interaction
 ## Help / discovery
 
 - `/help` lists all available commands by scanning `commands/` directory, grouped by category.
-- When a command is invoked, load and follow its instructions from `commands/{category}/{name}.md`.
+- When a command is invoked, load and follow its instructions from `commands/{command}.md`.
 
-Remember: `commands/` = command definitions organized by category. `work/` = dotagent's managed workspace. Map user intent to commands, load command files, follow their instructions, and only act after explicit user consent.
+Remember: `commands/` = flat directory of command definitions. `work/` = dotagent's managed workspace. Map user intent to commands, load command files, follow their instructions, and only act after explicit user consent.

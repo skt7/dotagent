@@ -8,7 +8,7 @@ Goal: given a Bug ID (e.g., BUG-001), analyze the bug file under `work/issues/BU
 ## Inputs
 
 - Bug ID (user-provided), e.g., `BUG-001`.
-- File: `work/issues/BUG-001.md` (must exist). If missing, ask user to confirm ID or create the bug via `/report_bug`.
+- File: `work/issues/BUG-001.md` (must exist). If missing, ask user to confirm ID or create the bug via `/issues_report`.
 - Optional: `work/tasks/todo.md`, `context.json` for context enrichment.
 - Optional: recent staged diff or git_diff report if user provides (helps locate files).
 
@@ -68,7 +68,7 @@ Goal: given a Bug ID (e.g., BUG-001), analyze the bug file under `work/issues/BU
 
 - Do not modify any bug files. Read-only for bug files.
 - Ask at most one clarifying question if critical info is missing; otherwise put missing items into the debugging checklist as required steps.
-- When invoking `/update_to_do`, treat it as a subtask and require explicit user confirmation before the actual write.
+- When invoking `/tasks_update`, treat it as a subtask and require explicit user confirmation before the actual write.
 - Never run git or tests automatically — always provide the exact commands for the developer to run.
 
 ---
