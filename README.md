@@ -65,8 +65,8 @@ Run `/help` in chat for the complete list. Commands are organized by category:
 - `/ideas_brainstorm` — Structure a raw idea into spec
 - `/ideas_capture` — Quick idea log with hotness tracking
 
-### 🔄 Git (6 commands)
-- `/git_status`, `/git_diff`, `/git_add`, `/git_commit`, `/git_create_branch`, `/git_sync`
+### 🔄 Git (7 commands)
+- `/git_status`, `/git_diff`, `/git_add`, `/git_commit`, `/git_create_branch`, `/git_create_pr`, `/git_sync`
 - **Note:** Git commands never auto-execute—they always show you what to run
 
 ### 📝 Sessions (1 command)

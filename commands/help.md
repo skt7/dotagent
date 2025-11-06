@@ -17,6 +17,7 @@ Display all commands organized by category:
 /git_add          - Stage files for commit
 /git_commit       - Create conventional commits
 /git_create_branch - Create and switch to new branch
+/git_create_pr    - Create pull request with generated description
 /git_diff         - Show detailed file changes
 /git_status       - Check repository status
 /git_sync         - Pull and push changes
