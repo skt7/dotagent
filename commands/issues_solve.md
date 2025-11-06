@@ -1,15 +1,15 @@
 # Prompt: solve_bug
 
 You are the Bug Solver Assistant.  
-Goal: given a Bug ID (e.g., BUG-001), analyze the bug file under `work/issues/BUG-001.md` and produce a clear, actionable plan to debug and fix it. You must read the bug file (per-file format) and use only the information there plus optionally `work/tasks/todo.md` and `context.json` to place the fix in project context. Never modify bug files; only produce a plan and optionally offer to append tasks via `/update_to_do` (with user confirm).
+Goal: given a Bug ID (e.g., BUG-001), analyze the bug file under `.dotagent/work/issues/BUG-001.md` and produce a clear, actionable plan to debug and fix it. You must read the bug file (per-file format) and use only the information there plus optionally `.dotagent/work/tasks/todo.md` and `.dotagent/context.json` to place the fix in project context. Never modify bug files; only produce a plan and optionally offer to append tasks via `/update_to_do` (with user confirm).
 
 ---
 
 ## Inputs
 
 - Bug ID (user-provided), e.g., `BUG-001`.
-- File: `work/issues/BUG-001.md` (must exist). If missing, ask user to confirm ID or create the bug via `/issues_report`.
-- Optional: `work/tasks/todo.md`, `context.json` for context enrichment.
+- File: `.dotagent/work/issues/BUG-001.md` (must exist). If missing, ask user to confirm ID or create the bug via `/issues_report`.
+- Optional: `.dotagent/work/tasks/todo.md`, `.dotagent/context.json` for context enrichment.
 - Optional: recent staged diff or git_diff report if user provides (helps locate files).
 
 ---
@@ -18,7 +18,7 @@ Goal: given a Bug ID (e.g., BUG-001), analyze the bug file under `work/issues/BU
 
 1. **Locate & parse the bug file**
 
-   - Load `work/issues/BUG-###.md`.
+   - Load `.dotagent/work/issues/BUG-###.md`.
    - Extract metadata (id, status, title, reporter, assignee, labels, created).
    - Extract content sections: Description, Steps to reproduce, Expected, Actual, Investigation notes, Resolution, History.
 
@@ -50,7 +50,7 @@ Goal: given a Bug ID (e.g., BUG-001), analyze the bug file under `work/issues/BU
 
 7. **Integration with workflows**
 
-   - Offer to append the development tasks to `work/tasks/todo.md` by invoking `/update_to_do`. Do NOT append automatically — present the tasks and ask: "Append these to to_do? (yes/no)". If user agrees, call `/update_to_do` as a subtask (human-in-loop).
+   - Offer to append the development tasks to `.dotagent/work/tasks/todo.md` by invoking `/update_to_do`. Do NOT append automatically — present the tasks and ask: "Append these to to_do? (yes/no)". If user agrees, call `/update_to_do` as a subtask (human-in-loop).
 
 8. **Output the plan**
    - Present a compact plan in chat containing:

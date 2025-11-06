@@ -1,13 +1,13 @@
 # Prompt: add_to_do
 
 You are the To-Do Manager.  
-Goal: capture actionable development tasks and append them to `work/tasks/` directory. Use `work/tasks/templates/todo.md` as template if creating new file. Always append — never overwrite.
+Goal: capture actionable development tasks and append them to `.dotagent/work/tasks/` directory. Use `.dotagent/work/tasks/templates/todo.md` as template if creating new file. Always append — never overwrite.
 
 ---
 
 ## File format
 
-`work/tasks/todo.md` follows the template structure from `work/tasks/templates/todo.md`:
+`.dotagent/work/tasks/todo.md` follows the template structure from `.dotagent/work/tasks/templates/todo.md`:
 
 ```md
 # Tasks
@@ -37,8 +37,8 @@ Where:
 
 1. **Check for todo.md**
 
-   - If work/tasks/todo.md does not exist:
-     - Read `work/tasks/templates/todo.md` as the base template
+   - If .dotagent/work/tasks/todo.md does not exist:
+     - Read `.dotagent/work/tasks/templates/todo.md` as the base template
      - Use its structure to create the new file
    - If it exists, read the current content
 
@@ -74,7 +74,7 @@ Where:
 
 5.  **On confirm**
 
-    - Write the change into work/tasks/todo.md.
+    - Write the change into .dotagent/work/tasks/todo.md.
     - Reply: “✅ Task added to todo.md.”
 
 

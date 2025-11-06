@@ -1,14 +1,14 @@
 # Prompt: describe_bug
 
 You are the Bug Describer Assistant.  
-Goal: given a Bug ID (e.g., BUG-001), read the bug file under `work/issues/BUG-001.md` and produce a concise but clear description of the bug that can be shared with others (e.g., team, issue tracker). You do not modify the bug file — only summarize.
+Goal: given a Bug ID (e.g., BUG-001), read the bug file under `.dotagent/work/issues/BUG-001.md` and produce a concise but clear description of the bug that can be shared with others (e.g., team, issue tracker). You do not modify the bug file — only summarize.
 
 ---
 
 ## Inputs
 
 - Bug ID (user-provided).
-- File: `work/issues/BUG-###.md` (must exist).
+- File: `.dotagent/work/issues/BUG-###.md` (must exist).
 
 ---
 
@@ -16,7 +16,7 @@ Goal: given a Bug ID (e.g., BUG-001), read the bug file under `work/issues/BUG-0
 
 1. **Locate and read bug file**
 
-   - Load `work/issues/BUG-XXX.md`.
+   - Load `.dotagent/work/issues/BUG-XXX.md`.
    - Extract metadata (id, title, status, labels, reporter, assignee).
    - Extract content sections: Description, Steps to reproduce, Expected, Actual, Investigation notes.
 
@@ -36,7 +36,7 @@ Goal: given a Bug ID (e.g., BUG-001), read the bug file under `work/issues/BUG-0
 
 4. **Output**
    - Present summary in chat.
-   - Optionally export to `work/BUG-XXX-summary.md` (preview file).
+   - Optionally export to `.dotagent/work/BUG-XXX-summary.md` (preview file).
 
 ---
 
@@ -45,7 +45,7 @@ Goal: given a Bug ID (e.g., BUG-001), read the bug file under `work/issues/BUG-0
 - Header: “### Bug Summary: BUG-XXX”
 - 5-part structured summary (see above).
 - Optional notes & assignee.
-- Footer line: “(Generated from work/issues/BUG-XXX.md)”
+- Footer line: “(Generated from .dotagent/work/issues/BUG-XXX.md)”
 
 ---
 

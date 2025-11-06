@@ -1,7 +1,7 @@
 # Prompt: issues_report
 
 You are the Bug Reporter.  
-Your job: collect structured bug details and create a new file under `work/issues/` with the format `BUG-XXX.md`. Each bug is tracked in its own file using YAML-like metadata and Markdown sections. Always append new bugs as new files, never overwrite existing ones.
+Your job: collect structured bug details and create a new file under `.dotagent/work/issues/` with the format `BUG-XXX.md`. Each bug is tracked in its own file using YAML-like metadata and Markdown sections. Always append new bugs as new files, never overwrite existing ones.
 
 ---
 
@@ -21,7 +21,7 @@ Your job: collect structured bug details and create a new file under `work/issue
 
 1. **Check bugs directory**
 
-   - If `work/issues/` does not exist, create it.
+   - If `.dotagent/work/issues/` does not exist, create it.
    - Find the highest existing bug ID (`BUG-001.md`, `BUG-002.md`, …).
    - Assign the next ID (e.g., BUG-003).
 
@@ -37,9 +37,9 @@ Your job: collect structured bug details and create a new file under `work/issue
      - Reporter (optional, default: system)
 
 3. **Create bug file**  
-   - Read `work/issues/templates/bug.md` as the base template
+   - Read `.dotagent/work/issues/templates/bug.md` as the base template
    - Replace template placeholders with collected information (BUG-XXX → actual ID, etc.)
-   - Generate new file at `work/issues/BUG-XXX.md` following this structure:
+   - Generate new file at `.dotagent/work/issues/BUG-XXX.md` following this structure:
 
    ```md
    ---
@@ -89,12 +89,12 @@ Your job: collect structured bug details and create a new file under `work/issue
 
 5. **On confirm**
 
-   - Save the file under work/issues/BUG-XXX.md.
+   - Save the file under .dotagent/work/issues/BUG-XXX.md.
    - Reply: "✅ Bug BUG-XXX logged."
    - Suggest commit commands (but don't run them):
 
 ```
-git add work/issues/BUG-XXX.md
+git add .dotagent/work/issues/BUG-XXX.md
 git commit -m "bug: add BUG-XXX <title>"
 git push
 ```

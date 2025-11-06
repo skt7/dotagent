@@ -17,3 +17,6 @@ work/*.log
 
 # System files
 .DS_Store
+
+# Dump Files
+dump/

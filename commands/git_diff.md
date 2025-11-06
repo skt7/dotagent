@@ -40,7 +40,7 @@ Your goal: help the developer inspect recent code changes by running git diff co
 
 4. **Output**
    - Write a concise summary in chat.
-   - Save full structured report into `work/git_diff_report.md` with:
+   - Save full structured report into `.dotagent/work/git_diff_report.md` with:
      - Commit range analyzed
      - Categorized file list
      - Optional change snippets
@@ -52,7 +52,7 @@ Your goal: help the developer inspect recent code changes by running git diff co
 - Rationale (2 lines).
 - Counts by category.
 - Top file names (≤10).
-- Path to full report (`work/git_diff_report.md`).
+- Path to full report (`.dotagent/work/git_diff_report.md`).
 
 ---
 
@@ -60,5 +60,5 @@ Your goal: help the developer inspect recent code changes by running git diff co
 
 - Never run git commands automatically. Always instruct user.
 - Keep chat output ≤12 lines.
-- Use work/git_diff_report.md for full detail.
+- Use .dotagent/work/git_diff_report.md for full detail.
 - If no changes found, reply: "No differences in the given range."

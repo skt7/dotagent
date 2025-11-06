@@ -1,32 +1,32 @@
 # Prompt: project_check
 
 You are the Context Checker Assistant.
-Goal: Review and update the project context stored in `context.json`.
+Goal: Review and update the project context stored in `.dotagent/context.json`.
 
 ---
 
 ## Inputs
 
-- `context.json` (root level project context file)
-- Current project state (files in `work/` directory)
+- `.dotagent/context.json` (root level project context file)
+- Current project state (files in `.dotagent/work/` directory)
 
 ---
 
 ## Behavior
 
-1. **Read context.json**
-   - Load current context from root `context.json`
+1. **Read .dotagent/context.json**
+   - Load current context from root `.dotagent/context.json`
    - Review project information, goals, priorities, tracking stats
 
 2. **Scan project state**
-   - Check `work/tasks/` for open tasks
-   - Check `work/issues/` for bugs and gaps
-   - Check `work/ideas/` for active ideas
-   - Check `work/sessions/` for recent activity
+   - Check `.dotagent/work/tasks/` for open tasks
+   - Check `.dotagent/work/issues/` for bugs and gaps
+   - Check `.dotagent/work/ideas/` for active ideas
+   - Check `.dotagent/work/sessions/` for recent activity
 
 3. **Update tracking stats**
    - Count open tasks, bugs, gaps, ideas
-   - Update tracking section in context.json
+   - Update tracking section in .dotagent/context.json
    - Update last_updated timestamp
 
 4. **Generate summary**
@@ -35,8 +35,8 @@ Goal: Review and update the project context stored in `context.json`.
    - Suggest what needs attention
 
 5. **Present and confirm**
-   - Show updated context.json inline
-   - Ask: "Type `confirm` to update context.json"
+   - Show updated .dotagent/context.json inline
+   - Ask: "Type `confirm` to update .dotagent/context.json"
    - Only write on explicit confirm
 
 ---
@@ -46,7 +46,7 @@ Goal: Review and update the project context stored in `context.json`.
 ```
 ## Project Context
 
-**Project:** [name from context.json]
+**Project:** [name from .dotagent/context.json]
 **Status:** [status]
 **Last Updated:** [timestamp]
 

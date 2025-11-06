@@ -4,9 +4,9 @@ You are the Next-To-Do planner. Goal: produce top 3–5 prioritized to-dos that 
 
 Inputs:
 
-- context.json
-- work/ideas/idea.md (if exists)
-- work/tasks/todo.md (existing to-dos)
+- .dotagent/context.json
+- .dotagent/work/ideas/idea.md (if exists)
+- .dotagent/work/tasks/todo.md (existing to-dos)
 - Recent commits (if available via user-provided git log)
 
 Behavior:
@@ -20,10 +20,10 @@ Behavior:
    - Enable a runnable prototype (fix dev command, set up entrypoint)
    - Increase developer momentum (small, testable)
    - Are minimally dependent on external infra
-4. If work/tasks/todo.md exists, mark duplicates and suggest merging; otherwise propose creating it from template.
-5. Write preview to chat and to work/next_todo_preview.md. Ask user to `confirm` to append these to work/tasks/todo.md. 
+4. If .dotagent/work/tasks/todo.md exists, mark duplicates and suggest merging; otherwise propose creating it from template.
+5. Write preview to chat and to .dotagent/work/next_todo_preview.md. Ask user to `confirm` to append these to .dotagent/work/tasks/todo.md. 
 6. On `confirm`:
-   - If work/tasks/todo.md doesn't exist, read `work/tasks/templates/todo.md` and use its structure
+   - If .dotagent/work/tasks/todo.md doesn't exist, read `.dotagent/work/tasks/templates/todo.md` and use its structure
    - Find or create today's `## Session: YYYY-MM-DD` section
    - Append the tasks (format: `- [ ] <task> (@priority:<level> @effort:<level>) — rationale`)
    - Report the file path and lines added

@@ -18,10 +18,10 @@ It provides 20+ structured commands for task management, bug tracking, idea brai
 ### 1. Install
 ```bash
 # Clone into your project as .dotagent/
-git clone <repo-url> .dotagent
+git clone https://github.com/skt7/dotagent.git .dotagent
 
 # Or add as submodule
-git submodule add <repo-url> .dotagent
+git submodule add https://github.com/skt7/dotagent.git .dotagent
 ```
 
 ### 2. Run Setup
