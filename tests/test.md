@@ -1,10 +1,12 @@
 # Dotagent Test Orchestration Plan
 
 You are the **Test Orchestrator** for dotagent. Your job is to:
-1. **Setup the test environment** (if not already done)
-2. **Configure dotagent** (load agent_prompt.md)
-3. **Execute test scenarios** based on configuration below
+1. **Ask user which tests to run**
+2. **Load dotagent configuration** (read agent_prompt.md)
+3. **Execute test scenarios** based on user's choice
 4. **Document results** in TEST_RESULTS.md
+
+**Prerequisites:** The test environment is already set up by `setup_test_env.sh`
 
 ---
 
@@ -57,44 +59,41 @@ Please respond with your choice:
 
 ---
 
-## Step 2: Environment Setup
+## Step 2: Verify Setup & Load Configuration
 
-**After getting test configuration, set up the environment:**
+### 2.1: Verify Test Environment
 
-### 2.1: Verify Current Directory
+**Check that setup was completed:**
+
 ```bash
-pwd
-# Should show: .../dotagent/tests/dummy_project
+# Verify .dotagent exists
+ls -la .dotagent/
+
+# Verify Cursor rule installed
+ls -la .cursor/rules/dotagent.mdc
+
+# Verify commands installed (should be 22: 21 dotagent + 1 test)
+find .cursor/commands -name "*.md" | wc -l
+
+# Verify templates present (should be 6)
+find .dotagent/work/*/templates -name "*.md" | wc -l
 ```
 
-If NOT in `tests/dummy_project/`, navigate there:
-```bash
-cd tests/dummy_project
+**If any of these fail, tell user:**
+```
+⚠️  Setup incomplete or failed!
+
+Please run setup first:
+  .dotagent/tests/setup_test_env.sh
+
+Then navigate back here and re-run /test
 ```
 
-### 2.2: Check if .dotagent exists
-```bash
-ls -la .dotagent
-```
+### 2.2: Load Dotagent Configuration
 
-If `.dotagent/` directory doesn't exist, tell user to run setup first:
-```
-⚠️  Setup required!
+**CRITICAL:** Read `.cursor/rules/dotagent.mdc` and internalize its instructions.
 
-Please run the setup script first:
-  cd tests/
-  ./setup_test_env.sh
-  cd dummy_project/
-
-Then re-run this test plan.
-```
-
-**If .dotagent exists, proceed to next step.**
-
-### 2.3: Load Dotagent Configuration
-**CRITICAL:** Read `.dotagent/agent_prompt.md` and internalize its instructions.
-
-This file tells you:
+This is the **actual rule file** that Cursor loads. It tells you:
 - How to discover and execute commands
 - How to use templates (section D.1)
 - File mutation rules
@@ -102,21 +101,10 @@ This file tells you:
 
 **Action:** Read the file now:
 ```
-Read: .dotagent/agent_prompt.md
+Read: .cursor/rules/dotagent.mdc
 ```
 
 Once you've loaded the agent prompt, you ARE the dotagent agent. Use that knowledge for all subsequent test commands.
-
-### 2.4: Verify Setup Complete
-```bash
-# Should show 20 commands
-find .dotagent/commands -maxdepth 1 -name "*.md" | wc -l
-
-# Should show 6 templates
-find .dotagent/work/*/templates/ -name "*.md" | wc -l
-```
-
-**Once setup is verified, proceed to test execution.**
 
 ---
 
@@ -247,8 +235,8 @@ After all tests complete, create `../TEST_RESULTS.md` with:
 
 As the test orchestrator, you will:
 1. ✅ **Ask user** which tests to run (Step 1)
-2. ✅ **Setup environment** - run setup script (Step 2)
-3. ✅ **Load configuration** - read agent_prompt.md (Step 2.3)
+2. ✅ **Verify setup** - check .dotagent and .cursor are ready (Step 2.1)
+3. ✅ **Load configuration** - read .cursor/rules/dotagent.mdc (Step 2.2)
 4. ✅ **Execute tests** - based on user choice (Step 3)
 5. ✅ **Document results** - create TEST_RESULTS.md (Step 3.4)
 6. ✅ **Report to user** - share findings

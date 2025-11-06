@@ -11,7 +11,7 @@ Dotagent includes a functional testing framework that validates all commands wor
 ```
 tests/
 ├── README.md                    # This file
-├── test.md                      # Test orchestrator (source)
+├── test.md                      # Test orchestrator (registered as /test command)
 ├── setup_test_env.sh            # Setup script (copies files)
 ├── scenarios/                   # Modular test scenarios
 │   ├── critical/                # Tests 1-4 (must pass)
@@ -19,18 +19,20 @@ tests/
 │   ├── edge_cases/              # Tests 8-10 (nice to have)
 │   └── extended/                # Tests 11-14 (comprehensive)
 └── dummy_project/               # Realistic test project
-    ├── test.md             # Copied here by setup (run from here!)
+    ├── .cursor/                 # Cursor configuration (created by setup)
+    │   ├── rules/dotagent.mdc   # Dotagent system prompt
+    │   └── commands/*.md        # 22 commands (21 dotagent + test.md)
     ├── .dotagent/               # Copied from main repo (isolated)
     ├── docprep/                 # Python library source (785 LOC)
     ├── tests/                   # Unit tests
     ├── examples/                # Usage examples
-    └── .dotagent/work/                    # Created by dotagent commands during testing
+    └── .dotagent/work/          # Created by dotagent commands during testing
 ```
 
 **Important:**
-- `.dotagent/` and `test.md` are **copies** (not symlinks)
-- Changes in `dummy_project/` won't affect the main repo
-- Run from `dummy_project/` where test.md lives
+- `.dotagent/` is a **copy** (not symlink) - changes won't affect main repo
+- `test.md` is registered as `/test` command in `.cursor/commands/`
+- Run tests from `dummy_project/` by typing `/test` in Cursor chat
 
 ## Dummy Project: DocPrep
 
@@ -88,13 +90,13 @@ Before running tests, understand what `test.md` does:
 **First time, or when dotagent commands/templates change:**
 
 ```bash
-cd .dotagent/tests/dummy_project/
-../setup_test_env.sh
+# From your project root (where .dotagent/ is)
+.dotagent/tests/setup_test_env.sh
 ```
 
 This script:
-- ✅ Copies dotagent files to `dummy_project/.dotagent/`
-- ✅ Installs dotagent to `.cursor/` (via setup.sh)
+- ✅ Copies dotagent files to `.dotagent/tests/dummy_project/.dotagent/`
+- ✅ Installs dotagent to `.dotagent/tests/dummy_project/.cursor/`
 - ✅ Registers `/test` command in `.cursor/commands/`
 - ✅ Cleans previous test artifacts
 - ✅ Verifies all templates are present
@@ -105,9 +107,9 @@ This script:
 
 **Simply invoke the `/test` command:**
 
-1. **Open Cursor in dummy_project**
+1. **Navigate to dummy_project and open Cursor**
    ```bash
-   cd .dotagent/tests/dummy_project/
+   cd .dotagent/tests/dummy_project
    cursor .
    ```
 
@@ -272,8 +274,8 @@ To add new test scenarios:
 
 After changes to dotagent:
 
-1. Clean test environment: `rm -rf dummy_project/.dotagent/work/`
-2. Re-run setup: `./setup_test_env.sh`
+1. Clean test environment: `rm -rf .dotagent/tests/dummy_project/.dotagent/work/`
+2. Re-run setup: `.dotagent/tests/setup_test_env.sh`
 3. Execute test plan
 4. Compare results with previous runs
 5. Update scenario files if expected behavior changes
@@ -281,9 +283,9 @@ After changes to dotagent:
 ## Maintenance
 
 - **dummy_project/.dotagent/work/** is gitignored (generated during tests)
-- **Reset test environment:** `rm -rf tests/dummy_project/.dotagent/work`
+- **Reset test environment:** `rm -rf .dotagent/tests/dummy_project/.dotagent/work`
 - **Update scenarios:** Modify verification criteria in scenario files as needed
 
 ---
 
-**Ready to test?** Run `./setup_test_env.sh` then open `dummy_project/` in Cursor!
+```

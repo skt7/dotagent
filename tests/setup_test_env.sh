@@ -10,7 +10,7 @@ echo ""
 
 # Navigate to tests directory
 cd "$(dirname "$0")"
-REPO_ROOT=".."
+REPO_ROOT="$(cd .. && pwd)"
 
 # Step 1: Copy dotagent to dummy_project/.dotagent
 echo "1. Copying dotagent to dummy_project/.dotagent/..."
@@ -30,6 +30,7 @@ fi
 echo "   📦 Copying dotagent files..."
 mkdir -p .dotagent
 cp -r $REPO_ROOT/{commands,work,agent_prompt.md,context.json,setup.sh} .dotagent/ 2>/dev/null || true
+chmod +x .dotagent/setup.sh
 echo "   ✓ Copied dotagent to .dotagent/"
 
 # Step 2: Run the main setup.sh script
@@ -43,7 +44,7 @@ cd ..
 echo ""
 echo "3. Registering /test command..."
 if [ -f "../test.md" ]; then
-    cp "../test.md" "../.cursor/commands/"
+    cp "../test.md" ".cursor/commands/"
     echo "   ✓ Registered /test command in .cursor/commands/"
 else
     echo "   ⚠️  test.md not found"
@@ -65,14 +66,14 @@ echo ""
 echo "5. Verifying test environment..."
 
 # Check Cursor setup
-if [ -f "../.cursor/rules/dotagent.mdc" ]; then
+if [ -f ".cursor/rules/dotagent.mdc" ]; then
     echo "   ✓ Cursor rule installed"
 else
     echo "   ⚠️  Cursor rule not found"
 fi
 
-if [ -d "../.cursor/commands" ]; then
-    COMMAND_COUNT=$(find ../.cursor/commands -name "*.md" | wc -l | tr -d ' ')
+if [ -d ".cursor/commands" ]; then
+    COMMAND_COUNT=$(find .cursor/commands -name "*.md" | wc -l | tr -d ' ')
     echo "   ✓ Found $COMMAND_COUNT commands in .cursor/"
 fi
 
