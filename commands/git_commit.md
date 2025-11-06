@@ -29,7 +29,8 @@ Your goal: help the developer create a clean, conventional commit with the right
      - `<type>(<scope>): <short summary>`
      - Types: feat, fix, chore, docs, test, refactor.
    - Keep summary ≤72 characters.
-   - Add optional body lines for details (e.g., file counts, task references).
+   - Add optional body lines for details (e.g., task references, breaking changes).
+   - Never include file change statistics - these are available via `git show` or `git log --stat`.
 
 3. **Propose branch name**
 
