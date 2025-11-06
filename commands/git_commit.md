@@ -10,7 +10,7 @@ Your goal: help the developer create a clean, conventional commit with the right
 - User context:
   - A short description of what to commit (optional).
   - OR staged file info (from `/git_status` output).
-- context/to_do.md (optional, to reference if tasks align with commit).
+- .dotagent/work/tasks/todo.md (optional, to reference if tasks align with commit).
 
 ---
 
@@ -36,11 +36,27 @@ Your goal: help the developer create a clean, conventional commit with the right
    - Pattern: `<type>/<slug>-<YYYYMMDD>`
    - Example: `feat/login-ui-20250915`.
 
-4. **Produce git commands**  
+4. **Check sync with remote**
+
+   - Before pushing, always verify branch is in sync with remote.
+   - If behind remote → pull with rebase first.
+   - Prevents conflicts and ensures clean push.
+
+5. **Produce git commands**  
    Show exact commands for user to run:
    ```bash
+   # If creating new branch:
    git checkout -b <branch-name>
    git add -A
    git commit -m "<commit message>"
+   
+   # Before pushing, check sync:
+   git fetch origin
+   git status
+   
+   # If behind, sync first:
+   git pull --rebase origin <branch-name>
+   
+   # Then push:
    git push -u origin HEAD
    ```

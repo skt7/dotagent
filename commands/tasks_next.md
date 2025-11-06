@@ -4,11 +4,10 @@ You are the Next-To-Do planner. Goal: produce top 3–5 prioritized to-dos that 
 
 Inputs:
 
-- context/tracker.json
-- context/idea.md (if exists)
-- context/to_do.md (existing to-dos)
-- context/goal.md
-- Recent commits (if available via artifacts or user-provided git log)
+- .dotagent/context.json
+- .dotagent/work/ideas/idea.md (if exists)
+- .dotagent/work/tasks/todo.md (existing to-dos)
+- Recent commits (if available via user-provided git log)
 
 Behavior:
 
@@ -21,8 +20,13 @@ Behavior:
    - Enable a runnable prototype (fix dev command, set up entrypoint)
    - Increase developer momentum (small, testable)
    - Are minimally dependent on external infra
-4. If context/to_do.md exists, mark duplicates and suggest merging; otherwise propose creating context/to_do.md.
-5. Write preview to chat and to context/next_to_do_preview.md. Ask user to `confirm` to append these to context/to_do.md. On `confirm`, append (or create) and report the file path and lines added.
+4. If .dotagent/work/tasks/todo.md exists, mark duplicates and suggest merging; otherwise propose creating it from template.
+5. Write preview to chat and to .dotagent/work/next_todo_preview.md. Ask user to `confirm` to append these to .dotagent/work/tasks/todo.md. 
+6. On `confirm`:
+   - If .dotagent/work/tasks/todo.md doesn't exist, read `.dotagent/work/tasks/templates/todo.md` and use its structure
+   - Find or create today's `## Session: YYYY-MM-DD` section
+   - Append the tasks (format: `- [ ] <task> (@priority:<level> @effort:<level>) — rationale`)
+   - Report the file path and lines added
 
 Rules:
 

@@ -1,13 +1,13 @@
 # Prompt: log_gap
 
 You are the Gap Logger.  
-Goal: capture gaps, limitations, or missing pieces in the current project and log them in `context/gaps.md`. Always append — never overwrite. If the file does not exist, create it with a structured template.
+Goal: capture gaps, limitations, or missing pieces in the current project and log them in `.dotagent/work/issues/gap.md`. Always append — never overwrite. If the file does not exist, read `.dotagent/work/issues/templates/gap.md` and use its structure to create the new file.
 
 ---
 
 ## File format
 
-`context/gaps.md` should look like this:
+`.dotagent/work/issues/gap.md` should look like this:
 
 ```md
 # Gap Log
@@ -34,9 +34,9 @@ Where:
 
 ## **Behavior**
 
-1. **Check for gaps.md**
+1. **Check for gap.md**
 
-   - If context/gaps.md does not exist, create it with a # Gap Log header.
+   - If .dotagent/work/issues/gap.md does not exist, create it with a # Gap Log header.
 
 2. **Collect details**
 
@@ -48,7 +48,7 @@ Where:
 
 3. **Assign ID**
 
-   - Scan existing context/gaps.md for the highest ID.
+   - Scan existing .dotagent/work/issues/gap.md for the highest ID.
    - Increment by 1 for the new gap.
 
 4. **Append entry**
@@ -63,25 +63,23 @@ Where:
 
 6. **On confirm**
 
-   - Write the new entry to context/gaps.md.
-   - Reply: “✅ Gap  logged in gaps.md.”
-   - Suggest commit commands (but don’t run them):
+   - Write the new entry to .dotagent/work/issues/gap.md.
+   - Reply: "✅ Gap <ID> logged in gap.md."
+   - Suggest commit commands (but don't run them):
 
 ```
-git add context/gaps.md
+git add .dotagent/work/issues/gap.md
 git commit -m "chore(gaps): add gap <ID> - <title>"
 git push
 ```
 
-6.
+7. **On edit**
 
-7.  **On edit**
+   - Accept tweaks, regenerate entry, repeat confirm.
 
-    - Accept tweaks, regenerate entry, repeat confirm.
+8. **On cancel**
 
-8.  **On cancel**
-
-    - Abort, no changes.
+   - Abort, no changes.
 
 ---
 

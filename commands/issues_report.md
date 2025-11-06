@@ -1,7 +1,7 @@
-# Prompt: report_bug
+# Prompt: issues_report
 
 You are the Bug Reporter.  
-Your job: collect structured bug details and create a new file under `context/bugs/` with the format `BUG-XXX.md`. Each bug is tracked in its own file using YAML-like metadata and Markdown sections. Always append new bugs as new files, never overwrite existing ones.
+Your job: collect structured bug details and create a new file under `.dotagent/work/issues/` with the format `BUG-XXX.md`. Each bug is tracked in its own file using YAML-like metadata and Markdown sections. Always append new bugs as new files, never overwrite existing ones.
 
 ---
 
@@ -21,7 +21,7 @@ Your job: collect structured bug details and create a new file under `context/bu
 
 1. **Check bugs directory**
 
-   - If `context/bugs/` does not exist, create it.
+   - If `.dotagent/work/issues/` does not exist, create it.
    - Find the highest existing bug ID (`BUG-001.md`, `BUG-002.md`, …).
    - Assign the next ID (e.g., BUG-003).
 
@@ -37,7 +37,9 @@ Your job: collect structured bug details and create a new file under `context/bu
      - Reporter (optional, default: system)
 
 3. **Create bug file**  
-   Generate a new file at `context/bugs/BUG-XXX.md` with this structure:
+   - Read `.dotagent/work/issues/templates/bug.md` as the base template
+   - Replace template placeholders with collected information (BUG-XXX → actual ID, etc.)
+   - Generate new file at `.dotagent/work/issues/BUG-XXX.md` following this structure:
 
    ```md
    ---
@@ -87,17 +89,15 @@ Your job: collect structured bug details and create a new file under `context/bu
 
 5. **On confirm**
 
-   - Save the file under context/bugs/BUG-XXX.md.
-   - Reply: “✅ Bug BUG-XXX logged.”
-   - Suggest commit commands (but don’t run them):
+   - Save the file under .dotagent/work/issues/BUG-XXX.md.
+   - Reply: "✅ Bug BUG-XXX logged."
+   - Suggest commit commands (but don't run them):
 
 ```
-git add context/bugs/BUG-XXX.md
+git add .dotagent/work/issues/BUG-XXX.md
 git commit -m "bug: add BUG-XXX <title>"
 git push
 ```
-
-5.
 
 6. **On edit**
 

@@ -13,7 +13,7 @@ When helpful, **invoke** these internal tasks as subtasks and consume their outp
 - `git_diff` — obtains staged diff details.
 - `git_add` — suggests staging commands.
 - `git_commit` — prepares commit message and branch when README has been updated.
-- `check_context` — optional: check tracker.json / context if staged context files may affect README.
+- `project_check` — optional: check .dotagent/context.json if staged context files may affect README.
 
 ---
 
@@ -21,7 +21,7 @@ When helpful, **invoke** these internal tasks as subtasks and consume their outp
 
 1. Always start by invoking `git_status` (or request the user to paste `git status --short --branch`).
 2. If staged changes exist, invoke `git_diff` (or request staged diff).
-3. Optionally invoke `check_context` if `context/*` files are staged.
+3. Optionally invoke `/project_check` if `.dotagent/work/*` files or `.dotagent/context.json` are staged.
 
 **Rule:** staged diff is the single source of truth for WHAT to update. Context files are secondary enrichment if staged.
 
@@ -43,11 +43,11 @@ When helpful, **invoke** these internal tasks as subtasks and consume their outp
 
    - README.md should, over time, converge on this structure (adjusted only for what the diff indicates):
 
-     1. **Project Name** — taken from goal.md or context/tracker.json.
+     1. **Project Name** — taken from .dotagent/context.json.
      2. **Brief / Elevator Pitch** — short one-liner.
      3. **Getting Started** — install & run commands (from dependency manifests or staged changes).
-     4. **Goals** — current goals from context/goals.md if staged.
-     5. **Next To-Dos** — top items from context/to_do.md if staged.
+     4. **Goals** — current goals from .dotagent/context.json if staged.
+     5. **Next To-Dos** — top items from .dotagent/work/tasks/todo.md if staged.
      6. **Tests / Docs** — if test/docs files changed.
      7. **License** — if license file is present.
 

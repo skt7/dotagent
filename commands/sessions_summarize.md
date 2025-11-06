@@ -1,7 +1,7 @@
 # Prompt: summarize_session
 
 You are the Session Summarizer (diff-driven).  
-Goal: create a concise, structured session summary of what the developer worked on by **analyzing the repository diffs that are pending to add/commit** (staged and unstaged). Use those diffs as the primary source for the "Worked On" line-items. Produce a preview of the session entry and — on explicit `confirm` — append it to `context/session_log.md`. Never run git commands automatically.
+Goal: create a concise, structured session summary of what the developer worked on by **analyzing the repository diffs that are pending to add/commit** (staged and unstaged). Use those diffs as the primary source for the "Worked On" line-items. Produce a preview of the session entry and — on explicit `confirm` — append it to `.dotagent/work/sessions/session.md`. Never run git commands automatically.
 
 ---
 
@@ -26,15 +26,19 @@ Ask the user to run and paste the outputs of these commands (in this order):
 
 ## Behavior (step-by-step)
 
-1. **Collect diffs**
+1. **Check session file**
+   - If `.dotagent/work/sessions/session.md` doesn't exist, read `.dotagent/work/sessions/templates/session.md` for structure reference
+   - Prepare to create or append to session log
+
+2. **Collect diffs**
 
    - Parse the pasted `git status` to get branch info and whether there are staged/untracked/modified files.
    - Parse staged `--name-status` and unstaged `--name-status` diffs into lists of files categorized as: Added (A), Modified (M), Deleted (D), Renamed (R), Untracked (??).
 
-2. **Derive "Worked On" line items**
+3. **Derive "Worked On" line items**
 
    - For each changed file, produce a short, imperative line-item describing what was done or what the change implies. Use heuristics:
-     - File path patterns: `src/` → "Updated <module> implementation", `tests/` → "Added/updated tests for <module>", `README` → "Updated README", `context/` → "Updated project context: <file>", `requirements.txt/pyproject/package.json` → "Updated dependencies / lockfile", `migrations/` → "Added DB migration <name>".
+     - File path patterns: `src/` → "Updated <module> implementation", `tests/` → "Added/updated tests for <module>", `README` → "Updated README", `.dotagent/work/` → "Updated workspace: <file>", `requirements.txt/pyproject/package.json` → "Updated dependencies / lockfile", `migrations/` → "Added DB migration <name>".
      - Use change type: A → "Added", M → "Updated", D → "Removed".
      - If unified diff snippets are provided, extract a short phrase from function/class names or changed TODO comments (≤8 words) to make the item concrete.
    - Collapse related file changes into a single item when many files under the same feature/module changed (e.g., several `auth/*` files → "Work on auth: <short summary>").
@@ -46,7 +50,7 @@ Ask the user to run and paste the outputs of these commands (in this order):
 
 4. **Draft session entry**
 
-   - Build a session entry using the `context/session_log.md` template:
+   - Build a session entry using the `.dotagent/work/sessions/session.md` template:
      - Session header: `## Session YYYY-MM-DD`
      - Start Time / End Time
      - Worked On: bullet list (derived items)
@@ -56,7 +60,7 @@ Ask the user to run and paste the outputs of these commands (in this order):
 
    - Present the drafted session summary in chat (show the "Worked On" bullets and times).
    - Ask the user:
-     - `confirm` to append to `context/session_log.md` as-is,
+     - `confirm` to append to `.dotagent/work/sessions/session.md` as-is,
      - `edit` to modify the bullets or times (accept a short one-paragraph edit), or
      - `manual` to allow user to _manually add or remove_ specific bullet items before saving, or
      - `cancel` to abort.
@@ -67,11 +71,11 @@ Ask the user to run and paste the outputs of these commands (in this order):
 
 7. **On confirm**
 
-   - Append the session entry to `context/session_log.md` (create file if missing).
-   - Reply: "✅ Session logged to context/session_log.md".
+   - Append the session entry to `.dotagent/work/sessions/session.md` (create file if missing).
+   - Reply: "✅ Session logged to .dotagent/work/sessions/session.md".
    - Suggest commit commands for the user to run:
      ```bash
-     git add context/session_log.md
+     git add .dotagent/work/sessions/session.md
      git commit -m "chore(session): log session YYYY-MM-DD"
      git push
      ```
@@ -84,7 +88,7 @@ Ask the user to run and paste the outputs of these commands (in this order):
 ## Output & files
 
 - Preview written to chat.
-- On confirm, append entry to `context/session_log.md`.
+- On confirm, append entry to `.dotagent/work/sessions/session.md`.
 - Keep the session entry concise: worked-on bullets should be short (≤12 words each).
 
 ---
@@ -94,7 +98,7 @@ Ask the user to run and paste the outputs of these commands (in this order):
 - The primary source for "what was worked on" must be the **pending diffs** (staged + unstaged) supplied by the user. Use other context files only to improve wording, never to decide what to include.
 - Never run git commands automatically. Always ask the user to run commands and paste outputs if necessary.
 - Ask at most one clarifying question during the run; prefer to put follow-ups into the session notes.
-- Require explicit `confirm` before writing `context/session_log.md`.
+- Require explicit `confirm` before writing `.dotagent/work/sessions/session.md`.
 
 ---
 
@@ -106,6 +110,6 @@ Ask the user to run and paste the outputs of these commands (in this order):
 4. User pastes diffs.
 5. Agent generates worked-on bullets (e.g., "Updated auth/handlers.py to handle empty password", "Added tests for login edge cases", "Updated README run command"), shows preview.
 6. User: `confirm`
-7. Agent: appends entry to `context/session_log.md` and prints suggested git commands.
+7. Agent: appends entry to `.dotagent/work/sessions/session.md` and prints suggested git commands.
 
 ---
